@@ -25,7 +25,7 @@ SECRET_KEY = 'n*t!$_e!4xgf)31ij^wzigsd#)2pr1p%fkaqoc82w#k=z(!+pj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['promoappback.herokuapp.com',
+ALLOWED_HOSTS = ['localhost', 'promoappback.herokuapp.com',
                  'ser175704881-ti2wa5e3.wormhole.vk-apps.com', 'test-cors.org']
 
 

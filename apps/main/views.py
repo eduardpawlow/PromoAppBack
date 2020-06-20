@@ -48,8 +48,12 @@ def get_near_shops(request):
 
             avalible_promocodes = shop.promocode_templates.all()
 
-            random_promo = avalible_promocodes[random.randint(
-                0, len(avalible_promocodes) - 1)]
+            if len(avalible_promocodes) != 0:
+                random_promo = avalible_promocodes[random.randint(
+                    0, len(avalible_promocodes) - 1)]
+
+            else:
+                continue
 
             result.append({
                 'id': shop.id,
