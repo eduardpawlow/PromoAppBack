@@ -76,10 +76,10 @@ class ActivePromocode(models.Model):
         related_name='active_promocode'
     )
 
-    shop = models.ForeignKey(
-        to="Shop",
+    vk_user = models.ForeignKey(
+        to="VkUser",
         on_delete=models.DO_NOTHING,
-        related_name='active_promocode',
+        related_name='active_promocodes',
         blank=True,
         null=True
     )

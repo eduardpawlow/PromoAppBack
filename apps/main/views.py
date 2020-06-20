@@ -4,9 +4,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 
+from uuid import uuid4
 import json
 import math
 import random
+import datetime
 
 
 @csrf_exempt
@@ -31,7 +33,7 @@ def get_near_shops(request):
 
         shops = Shop.objects.all()
 
-        dist = 0.5
+        dist = 0.2
 
         # 1 градус широты = 111 км
         long1 = data['long'] - dist / \
@@ -74,3 +76,80 @@ def get_near_shops(request):
 
     else:
         return HttpResponse(status=405)
+
+
+@csrf_exempt
+def createpromocode(request):
+    # {vk_id, promocode_id, }
+
+    if request.method == 'POST':
+        try:
+            data = request.body.decode('utf-8')
+
+            print(data)
+
+            if(data == ''):
+                return HttpResponse(status=400)
+            data = json.loads(data)
+
+            if not data['vk_id'] or not data['promocode_id']:
+                return HttpResponse(status=400)
+
+        except Exception as e:
+            print(e)
+
+        try:
+            [vk_user, is_created] = VkUser.objects.get_or_create(
+                vk_id=int(data['vk_id']))
+            promoTemp = PromocodeTemplate.objects.get(id=data['promocode_id'])
+
+            print(vk_user)
+
+            life_period = datetime.timedelta(minutes=15)
+            end_date = datetime.datetime.now() + life_period
+
+            code = uuid4().hex.upper()[:10]
+
+            createdPromocode = ActivePromocode(
+                text=promoTemp,
+                vk_user=vk_user,
+                end_date=end_date,
+                code=code
+            )
+
+            createdPromocode.save()
+
+            # result = {
+            #     'text': createdPromocode.text.text,
+            #     'shop': createdPromocode.text.shop.name,
+            #     'end_date': createdPromocode.end_date.strftime("%d.%m.%y %I:%M"),
+            #     'vk_user': vk_user.id,
+            #     'code': code
+            # }
+
+        except Exception as e:
+            print(e)
+            return HttpResponse(status=400)
+
+        return HttpResponse(json.dumps({'status': True}), status=200)
+
+    else:
+        return HttpResponse(status=405)
+
+
+@csrf_exempt
+def getallpromocodes(request, vk_id):
+    allPromocodes = ActivePromocode.objects.filter(vk_user__id=vk_id)
+
+    result = []
+
+    for val in allPromocodes:
+        result.append({
+            'text': val.text.text,
+            'shop': val.text.shop.name,
+            'end_date': val.end_date.strftime("%d.%m.%y %I:%M"),
+            'vk_user': val.vk_user.id,
+            'code': val.code
+        })
+
+    return HttpResponse(json.dumps(result), status=200)
