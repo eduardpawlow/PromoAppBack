@@ -31,7 +31,7 @@ def get_near_shops(request):
 
         shops = Shop.objects.all()
 
-        dist = 10
+        dist = 0.5
 
         # 1 градус широты = 111 км
         long1 = data['long'] - dist / \
