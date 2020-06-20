@@ -1,4 +1,5 @@
 from django.db import models
+from uuid import uuid4
 
 
 class VkUser(models.Model):
@@ -38,6 +39,19 @@ class PromocodeTemplate(models.Model):
     text = models.TextField(
         verbose_name="Текст промокода",
         max_length=400
+    )
+
+    def custom_path(self, filename):
+        path = 'images/promocodes/'
+
+        ext = filename.split('.')[-1]
+        return '%s%s.%s' % (path, uuid4().hex, ext)
+
+    image = models.ImageField(
+        upload_to=custom_path,
+        verbose_name='Изображение',
+        blank=True,
+        null=True
     )
 
     shop = models.ForeignKey(

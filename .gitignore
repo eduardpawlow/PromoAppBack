@@ -1,0 +1,38 @@
+﻿
+# Игнорирование файлов VS Code
+# Ignoring VS Code's files
+/.vscode/
+
+# Игнорирование виртуального окружения
+# Ignoring virtual enviroment
+/venv/
+
+# Игнорирование БД для разработки
+# Ignoring development DB
+/*.sqlite3
+
+# Игнорирование JSON-файлов для fixtures
+# Ignoring JSON-files for fixtures
+/*.json
+
+# Игнорирование кеша Питона
+# Ignoring Python's cache
+__pycache__/
+
+# Игнорирование миграций БД
+# Ignoring DB's migrations
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Игнорирование csv файлов
+# Ignoring csv files
+*.csv
+
+# Игнорирование изображений
+# Ignoring images
+/media/**/*.*
+
+# Игнорирование секретных ключей настроек проекта для продакшена
+# Ignoring settings's secret keys for production
+secret.py
+db.sqlite3

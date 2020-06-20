@@ -64,7 +64,8 @@ def get_near_shops(request):
                 },
                 'promocode': {
                     'id': random_promo.id,
-                    'text': random_promo.text
+                    'text': random_promo.text,
+                    'img': random_promo.image.url if random_promo.image != None else None
                 }
             })
 
