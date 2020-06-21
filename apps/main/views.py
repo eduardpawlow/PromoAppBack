@@ -139,8 +139,7 @@ def createpromocode(request):
 
 @csrf_exempt
 def getallpromocodes(request, vk_id):
-    allPromocodes = ActivePromocode.objects.filter(vk_user__id=vk_id)
-
+    allPromocodes = ActivePromocode.objects.filter(vk_user__vk_id=400)
     result = []
 
     for val in allPromocodes:
